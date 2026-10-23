@@ -6,7 +6,6 @@ import { Eye, EyeOff, User, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react
 import { toast } from 'sonner';
 import { signupSchema, SignupSchema } from '@/lib/validations';
 import { supabase } from '@/lib/supabase';
-import { mapSupabaseUser } from '@/contexts/AuthContext';
 import PasswordStrength from '@/components/features/PasswordStrength';
 
 const SignupForm = () => {
@@ -26,6 +25,10 @@ const SignupForm = () => {
   const passwordValue = watch('password', '');
 
   const onSubmit = async (data: SignupSchema) => {
+    if (!supabase) {
+      toast.error('Account registration is currently unavailable. Please try again later.');
+      return;
+    }
     setIsLoading(true);
 
     const { data: authData, error } = await supabase.auth.signUp({

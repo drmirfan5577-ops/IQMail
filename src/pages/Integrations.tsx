@@ -108,7 +108,7 @@ export default function Integrations() {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !supabase) return;
     supabase
       .from('integrations')
       .select('*')
@@ -119,7 +119,7 @@ export default function Integrations() {
   const isConnected = (sid: string) => integrations.some(i => i.service_id === sid && i.connected);
 
   const toggle = async (sid: string) => {
-    if (!user) return;
+    if (!user || !supabase) return;
     setToggling(sid);
     const existing = integrations.find(i => i.service_id === sid);
     const nowConnected = !isConnected(sid);

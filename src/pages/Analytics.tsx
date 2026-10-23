@@ -54,7 +54,7 @@ export default function Analytics() {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !supabase) return;
     supabase
       .from('email_drafts')
       .select('id', { count: 'exact' })
