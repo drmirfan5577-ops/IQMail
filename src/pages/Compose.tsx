@@ -59,7 +59,7 @@ export default function Compose() {
     if (!to.trim()) { toast.error('Please enter a recipient email.'); return; }
     if (!subject.trim()) { toast.error('Please enter a subject.'); return; }
     if (!body.trim()) { toast.error('Please add some content.'); return; }
-    if (!user) return;
+    if (!user || !supabase) return;
 
     setSending(true);
     const { error } = await supabase.from('email_drafts').insert({
@@ -87,7 +87,7 @@ export default function Compose() {
   };
 
   const handleSaveDraft = async () => {
-    if (!user || (!to && !subject && !body)) { toast.error('Nothing to save.'); return; }
+    if (!supabase || !user || (!to && !subject && !body)) { toast.error('Nothing to save.'); return; }
     setSaving(true);
     const { error } = await supabase.from('email_drafts').insert({
       user_id: user.id,

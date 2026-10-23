@@ -50,6 +50,10 @@ export default function AdminPanel() {
 
   useEffect(() => {
     if (!authed) return;
+    if (!supabase) {
+      toast.error('Statistics are currently unavailable. Please try again later.');
+      return;
+    }
     setLoading(true);
     Promise.all([
       supabase.from('user_profiles').select('id', { count: 'exact' }),
